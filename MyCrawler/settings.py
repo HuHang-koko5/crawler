@@ -13,7 +13,7 @@ BOT_NAME = 'MyCrawler'
 
 SPIDER_MODULES = ['MyCrawler.spiders']
 NEWSPIDER_MODULE = 'MyCrawler.spiders'
-JOBDIR='rtve.com'
+JOBDIR='job_dir'
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.116 Safari/537.36"
 
@@ -91,6 +91,5 @@ CONCURRENT_REQUESTS_PER_IP = 8
 ITEM_PIPELINES = {
     'MyCrawler.pipelines.MongoDBPipeline': 300,
 }
-LOCAL_MONGO_HOST = 'localhost'
-LOCAL_MONGO_PORT = 27017
-DB_NAME = 'rtve'
+MONGO_HOST = 'mongodb+srv://koko3:3326106@cluster0.wnhwp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+MONGO_DB = 'Spider'

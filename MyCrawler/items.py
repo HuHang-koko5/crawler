@@ -33,6 +33,11 @@ class subtitleItem(scrapy.Item):
     timeline = scrapy.Field()
     content = scrapy.Field()
 
+class newsItem(scrapy.Item):
+    title = scrapy.Field()
+    url = scrapy.Field()
+    category = scrapy.Field()
+
 
 
 

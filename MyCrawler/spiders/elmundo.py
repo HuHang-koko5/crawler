@@ -1,5 +1,5 @@
 import scrapy
-from  MyCrawler.items import newsItem
+from MyCrawler.items import newsItem
 urls = [
         'https://www.elmundo.es/economia.html',
         'https://www.elmundo.es/internacional.html',

@@ -11,6 +11,7 @@ from MyCrawler.items import editorialItem, dramaAddressItem, subtitleItem, newsI
 
 ca = certifi.where()
 
+
 class MycrawlerPipeline(object):
     def process_item(self, item, spider):
         return item

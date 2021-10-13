@@ -38,6 +38,13 @@ class newsItem(scrapy.Item):
     url = scrapy.Field()
     category = scrapy.Field()
 
+class newsContentItem(scrapy.Item):
+    title = scrapy.Field()
+    stand_first = scrapy.Field()
+    content = scrapy.Field()
+    category = scrapy.Field()
+
+
 
 
 

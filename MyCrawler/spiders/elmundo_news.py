@@ -1,20 +1,22 @@
 import scrapy
 import pymongo
-from MyCrawler.items import newsItem
+from MyCrawler.items import newsContentItem
 from MyCrawler.settings import MONGO_HOST, MONGO_DB
-
+import certifi
+ca = certifi.where()
 
 class elmundoNewsSpider(scrapy.Spider):
     name = 'elmundo'
-    allowed_domains = ['https://www.elmundo.es']
+    allowed_domains = ['www.elmundo.es']
 
     def start_requests(self):
-        client = pymongo.MongoClient(MONGO_HOST)
+        client = pymongo.MongoClient(MONGO_HOST, tlsCAFile=ca)
         db = client[MONGO_DB]
-        col = client['News']
+        col = db['News']
         for item in col.find():
             news_url = item['url']
-            tag = item['label']
+            tag = item['category']
+            print('url:{}\ntag:{}'.format(news_url, tag))
             request = scrapy.Request(url=news_url,
                                      callback=self.parse_article,
                                      dont_filter=True)
@@ -23,17 +25,18 @@ class elmundoNewsSpider(scrapy.Spider):
 
     def parse_article(self, response, label):
         # get <article>
-        item = newsItem()
+        item = newsContentItem()
         news = response.xpath("//article")
         """
             <header> include title, stand first(optional) </header>
-            div: "//div[@class='ue-l-article-content']"
+            div: "//div[@class='ue-l-article__header-content']"
             title: h1/text()
             stand first(optional): p[@class='ue-c-article__standfirst']/text()
         """
-        header = news.xpath("//div[@class='ue-l-article-content']")
+        header = news.xpath("//div[@class='ue-l-article__header-content']")
         title = header.xpath("//h1/text()").get()
         stand_first = response.xpath("//p[@class='ue-c-article__standfirst']/text()").getall()
+        stand_first = "".join(stand_first)
         """
             content, need to exclude premium script
             div: div[@class='ue-l-article__body ue-c-article__body']
@@ -45,4 +48,10 @@ class elmundoNewsSpider(scrapy.Spider):
         """
         content = news.xpath("div[@class='ue-l-article__body ue-c-article__body']")
         content = content.xpath("p[1]//text()").getall()
+        content = "".join(content)
+        item['category'] = label
+        item['title'] = title
+        item['stand_first'] = stand_first
+        item['content'] = content
+        yield item
 

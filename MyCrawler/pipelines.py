@@ -3,7 +3,7 @@ import pymongo
 import logging
 import certifi
 from pymongo.errors import DuplicateKeyError
-from MyCrawler.items import editorialItem, dramaAddressItem, subtitleItem, newsItem
+from MyCrawler.items import *
 # Define your item pipelines here
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
@@ -39,6 +39,8 @@ class MongoDBPipeline(object):
             table_name = item['title']
         if isinstance(item, newsItem):
             table_name = 'News'
+        if isinstance(item, newsContentItem):
+            table_name = 'NewsContent'
         col = self.db[table_name]
         logging.debug("Post added to MongoDB")
         self.insert_item(col, item)

@@ -27,8 +27,7 @@ class elmundoCategorySpider(scrapy.Spider):
     def start_requests(self):
         for url, label in zip(urls,labels):
             request = scrapy.Request(url=url,
-                                     callback=self.parse_index,
-                                     dont_filter=True)
+                                     callback=self.parse_index)
             request.cb_kwargs['label'] = label
             yield request
 

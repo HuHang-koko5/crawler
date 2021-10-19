@@ -38,9 +38,9 @@ class MongoDBPipeline(object):
         if isinstance(item, subtitleItem):
             table_name = item['title']
         if isinstance(item, newsItem):
-            table_name = 'News'
+            table_name = 'elmundo_News'
         if isinstance(item, newsContentItem):
-            table_name = 'NewsContent'
+            table_name = 'elmundo_NewsContent'
         col = self.db[table_name]
         logging.debug("Post added to MongoDB")
         self.insert_item(col, item)
@@ -62,4 +62,4 @@ class MongoDBPipeline(object):
         try:
             collection.insert(dict(item))
         except DuplicateKeyError:
-            pass
+            logging.debug("duplicate item")

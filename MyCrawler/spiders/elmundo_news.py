@@ -12,7 +12,7 @@ class elmundoNewsSpider(scrapy.Spider):
     def start_requests(self):
         client = pymongo.MongoClient(MONGO_HOST, tlsCAFile=ca)
         db = client[MONGO_DB]
-        col = db['News']
+        col = db['elmundo_News']
         for item in col.find():
             news_url = item['url']
             tag = item['category']

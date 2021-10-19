@@ -60,6 +60,6 @@ class MongoDBPipeline(object):
     @staticmethod
     def insert_item(collection, item):
         try:
-            collection.insert(dict(item))
+            collection.update_one(item, {'$set': item}, upsert=True)
         except DuplicateKeyError:
             logging.debug("duplicate item")
